@@ -1,0 +1,80 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js build output
+/.next/
+/out/
+
+# Next.js build artifacts and caches
+build/
+.next/static/
+.next/server/
+.next/trace
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Nodejs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment variables
+.env*.local
+.env
+
+# Turborepo
+.turbo
+
+# ESLint cache
+.eslintcache
+
+# VSCode
+.vscode/
+
+# Log files
+*.log
+logs
+*.log.*
+
+# IDE specific files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarnclean
+
+# dotenv environment variable files
+.env
+.env.development
+.env.test
+.env.production
+
+# Parcel cache files
+.cache
+dist/ 
