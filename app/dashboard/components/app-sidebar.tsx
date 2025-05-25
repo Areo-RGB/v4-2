@@ -18,6 +18,7 @@ import {
   IconSearch,
   IconSettings,
   IconUsers,
+  IconVideo,
 } from "@tabler/icons-react"
 
 import {
@@ -49,7 +50,11 @@ const data = {
       title: "Analytics",
       url: "/dashboard/analytics",
       icon: IconChartBar,
-      active: true,
+    },
+    {
+      title: "Videos",
+      url: "/dashboard/videos",
+      icon: IconVideo,
     },
   ],
   navClouds: [
