@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/registry/new-york-v4/ui/dialog";
 
 export default function VideosPage() {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);

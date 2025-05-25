@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/registry/new-york-v4/ui/card" 
 import { DFB_AGE_GROUPS, getDfbSprintDataForChart, getDfbSprintMeanValues } from "@/lib/dfb-data" 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york-v4/ui/tabs"
 
 // Define test types and their display names
 const TEST_TYPES = [

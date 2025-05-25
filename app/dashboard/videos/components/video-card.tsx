@@ -1,6 +1,6 @@
 import React from 'react';
 import { Video } from '../types';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'; // Removed unused CardContent, CardFooter
+import { Card, CardHeader, CardTitle } from '@/registry/new-york-v4/ui/card';
 
 interface VideoCardProps {
   video: Video;

@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "@/registry/new-york-v4/ui/navigation-menu"
 import Link from "next/link"
 
 export default function AnalyticsPage() {
