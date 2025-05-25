@@ -6,10 +6,15 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/registry/new-york-v4/ui/card"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/registry/new-york-v4/ui/accordion"
 
 export default function VideosPage() {
   return (
@@ -67,29 +72,6 @@ export default function VideosPage() {
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Video Types</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  {videoTypes.map((type) => (
-                    <ListItem
-                      key={type.title}
-                      title={type.title}
-                      href={type.href}
-                    >
-                      {type.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/dashboard" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Dashboard
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
@@ -98,62 +80,47 @@ export default function VideosPage() {
         <CardHeader>
           <CardTitle>Video Overview</CardTitle>
         </CardHeader>
-        <CardContent className="h-[300px]">
-          <div className="flex h-full items-center justify-center border rounded-md">
-            <p className="text-muted-foreground">Video content will be displayed here</p>
-          </div>
+        <CardContent>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>10m Sprint</AccordionTrigger>
+              <AccordionContent>
+                Sprint performance data and videos for 10m distance.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>20m Sprint</AccordionTrigger>
+              <AccordionContent>
+                Sprint performance data and videos for 20m distance.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Gewandtheit</AccordionTrigger>
+              <AccordionContent>
+                Agility and movement performance videos and analysis.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger>Ballkontrolle</AccordionTrigger>
+              <AccordionContent>
+                Ball control exercise videos and demonstrations.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5">
+              <AccordionTrigger>Balljonglieren</AccordionTrigger>
+              <AccordionContent>
+                Ball juggling skills and technique videos.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-6">
+              <AccordionTrigger>Dribbling</AccordionTrigger>
+              <AccordionContent>
+                Dribbling technique videos and skills development.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </CardContent>
       </Card>
     </div>
   )
-}
-
-const videoTypes = [
-  {
-    title: "Tutorials",
-    href: "/dashboard/videos",
-    description:
-      "Educational and instructional video content.",
-  },
-  {
-    title: "Presentations",
-    href: "/dashboard/videos",
-    description:
-      "Business presentations and slide decks.",
-  },
-  {
-    title: "Product Demos",
-    href: "/dashboard/videos",
-    description:
-      "Demonstrations of products and features.",
-  },
-  {
-    title: "Webinars",
-    href: "/dashboard/videos",
-    description:
-      "Recorded webinars and online events.",
-  },
-]
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItem.displayName = "ListItem" 
+} 
