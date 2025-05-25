@@ -68,10 +68,9 @@ export default async function RootLayout({
           isScaled ? "theme-scaled" : "",
           fontVariables
         )}
-      >
-        <ThemeProvider
+      >        <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
           enableColorScheme
