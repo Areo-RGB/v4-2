@@ -52,6 +52,7 @@ import Video from "next-video"
 import { useIsMobile } from "@/registry/new-york-v4/hooks/use-mobile"
 import { Badge } from "@/registry/new-york-v4/ui/badge"
 import { Button } from "@/registry/new-york-v4/ui/button"
+import { Card } from "@/registry/new-york-v4/ui/card"
 import { Checkbox } from "@/registry/new-york-v4/ui/checkbox"
 import {
   Drawer,
@@ -869,7 +870,7 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
   }
 
   return (
-    <Drawer direction={isMobile ? "bottom" : "right"}>
+    <Drawer direction={isMobile ? "top" : "right"}>
       <DrawerTrigger asChild>
         <Button variant="link" className="text-foreground w-fit px-0 text-left">
           {children}
@@ -877,16 +878,16 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
       </DrawerTrigger>
       <DrawerContent className="p-0">
         {item.videoUrl ? (
-          <div className="flex flex-col h-full">
-            <div className="w-full video-container" style={{ height: isMobile ? "40vh" : "70vh" }}>
+          <div className="flex flex-col h-full p-4">
+            <Card className="border border-border shadow-lg mb-4 overflow-hidden">
               <Video 
                 src={item.videoUrl}
                 controls 
                 autoPlay
-                className="w-full h-full object-contain bg-black"
+                className="w-full aspect-video bg-black"
                 poster="/avatars/01.png"
               />
-            </div>
+            </Card>
             <div className="p-2 bg-background">
               <div className="flex flex-wrap gap-2 mb-2">
                 <div className="flex items-center gap-1">
