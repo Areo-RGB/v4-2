@@ -869,13 +869,13 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
       <DrawerContent className="p-0">
         {item.videoUrl ? (
           <div className="flex flex-col h-full">
-            <div className="flex-grow overflow-hidden relative">
+            <div className="w-full" style={{ height: isMobile ? "40vh" : "70vh" }}>
               <video 
                 ref={videoRef}
                 src={item.videoUrl} 
                 controls 
                 autoPlay
-                className="absolute inset-0 w-full h-full object-contain bg-black"
+                className="w-full h-full object-contain bg-black"
                 poster="/avatars/01.png"
               />
             </div>

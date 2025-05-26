@@ -133,10 +133,9 @@ export default function ExpandableCardDemo() {
               <video
                 ref={videoRef}
                 src={active.videoUrl}
-                className="w-full h-full object-contain cursor-pointer"
+                className="w-full h-full object-contain"
                 controls
                 autoPlay
-                onClick={() => setActive(null)}
               />
             </motion.div>
           </div>

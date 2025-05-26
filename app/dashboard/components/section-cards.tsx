@@ -1,4 +1,5 @@
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import Video from "next-video"
 
 import { Badge } from "@/registry/new-york-v4/ui/badge"
 import {
@@ -10,31 +11,24 @@ import {
   CardTitle,
 } from "@/registry/new-york-v4/ui/card"
 
-export function SectionCards() {
-  return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div>
-        </CardFooter>
-      </Card>
+export function SectionCards() {  return (    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">      {/* Video Card - fits exactly to video dimensions */}
+      <div className="@container/card col-span-full @xl/main:col-span-2">
+        <Card className="p-0 overflow-hidden w-fit h-fit mx-auto border border-border shadow-sm">
+          <Video
+            src="https://stream.mux.com/NYAE4oZ1WIvAoV5IQLr7I02e1dBXgLT003hdQZ1Xex6WI.m3u8"
+            muted
+            playsInline
+            className="block rounded-lg"
+            controls
+            style={{ 
+              maxWidth: '100%',
+              height: 'auto',
+              display: 'block',
+              verticalAlign: 'top'
+            }}
+          />
+        </Card>
+      </div>
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>New Customers</CardDescription>
