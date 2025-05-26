@@ -10,7 +10,7 @@ function setThemeCookie(theme: string) {
   document.cookie = `${COOKIE_NAME}=${theme}; path=/; max-age=31536000; SameSite=Lax; ${window.location.protocol === "https:" ? "Secure;" : ""}`
 }
 
-interface ThemeState {
+export interface ThemeState {
   // State
   activeTheme: string
   
