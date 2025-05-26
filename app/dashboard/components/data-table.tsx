@@ -47,6 +47,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { z } from "zod"
+import Video from "next-video"
 
 import { useIsMobile } from "@/registry/new-york-v4/hooks/use-mobile"
 import { Badge } from "@/registry/new-york-v4/ui/badge"
@@ -100,6 +101,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/registry/new-york-v4/ui/popover"
+import CustomVideoPlayer from "@/components/custom-video-player"
 
 export const schema = z.object({
   id: z.number(),

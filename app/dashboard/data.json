@@ -52,23 +52,21 @@
     "category": "Technik",
     "videoUrl": null,
     "isplayer": "YES"
-  },
-  {
+  },  {
     "id": 7,
     "name": "Bent",
     "result": "2.87",
     "exercise": "10m Sprint",
     "category": "Schnelligkeit",
-    "videoUrl": "https://data3.fra1.cdn.digitaloceanspaces.com/bent1/10m.mp4",
+    "videoUrl": "https://stream.mux.com/NYAE4oZ1WIvAoV5IQLr7I02e1dBXgLT003hdQZ1Xex6WI.m3u8",
     "isplayer": "YES"
-  },
-  {
+  },  {
     "id": 8,
     "name": "Bent",
     "result": "3.95",
     "exercise": "20m Sprint",
     "category": "Schnelligkeit",
-    "videoUrl": "https://data3.fra1.cdn.digitaloceanspaces.com/bent1/20m.mp4",
+    "videoUrl": "https://stream.mux.com/9C01G2LosCKrdNFbYG5lejOtbjg5V91b02CCtki1g27Nc.m3u8",
     "isplayer": "YES"
   },
   {
