@@ -24,7 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/registry/new-york-v4/ui/tooltip"
-import { useSidebar as useZustandSidebar } from "@/stores/sidebar-store"
+import { useSidebar as useZustandSidebar, useSidebarStore } from "@/stores/sidebar-store"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -39,11 +39,31 @@ function useSidebar() {
 }
 
 function SidebarProvider({
+  defaultOpen,
   className,
   style,
   children,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+  defaultOpen?: boolean
+}) {
+  const { setOpen, setIsMobile } = useZustandSidebar()
+  const store = useSidebarStore.getState()
+  const isMobile = useIsMobile()
+
+  // Initialize mobile state
+  React.useEffect(() => {
+    setIsMobile(isMobile)
+  }, [isMobile, setIsMobile])
+  // Initialize sidebar state with defaultOpen value or from cookie
+  React.useEffect(() => {
+    if (defaultOpen !== undefined) {
+      setOpen(defaultOpen)
+    } else {
+      store.initializeFromCookie()
+    }
+  }, [defaultOpen, setOpen])
+
   return (
     <TooltipProvider delayDuration={0}>
       <div
@@ -79,7 +99,7 @@ function Sidebar({
   variant?: "sidebar" | "floating" | "inset"
   collapsible?: "offcanvas" | "icon" | "none"
 }) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+  const { isMobile, state, openMobile, setOpenMobile } = useZustandSidebar()
 
   if (collapsible === "none") {
     return (
@@ -174,7 +194,7 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar } = useZustandSidebar()
 
   return (
     <Button
@@ -196,7 +216,7 @@ function SidebarTrigger({
 }
 
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar } = useZustandSidebar()
 
   return (
     <button
