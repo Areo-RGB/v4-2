@@ -140,32 +140,6 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => <DragHandle id={row.original.id} />,
   },
   {
-    id: "select",
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: "name",
     header: ({ column }) => {
       return (
@@ -839,6 +813,39 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
   // Frame by frame navigation (approximately 1/30 second per frame)
   const frameStep = 1/30
   
+  // Use useEffect to get the video element from next-video
+  React.useEffect(() => {
+    if (!item.videoUrl) return;
+    
+    const findVideoElement = () => {
+      // Find the video element inside the next-video component
+      const videoElement = document.querySelector('.video-container video');
+      if (videoElement) {
+        videoRef.current = videoElement as HTMLVideoElement;
+        return true;
+      }
+      return false;
+    };
+    
+    // Try immediately
+    if (!findVideoElement()) {
+      // If not ready, use MutationObserver to wait for the video to load
+      const observer = new MutationObserver(() => {
+        if (findVideoElement()) {
+          observer.disconnect();
+        }
+      });
+      
+      observer.observe(document.body, { 
+        childList: true, 
+        subtree: true 
+      });
+      
+      // Cleanup observer after 5 seconds
+      setTimeout(() => observer.disconnect(), 5000);
+    }
+  }, [item.videoUrl]);
+  
   const stepForward = () => {
     if (videoRef.current) {
       videoRef.current.pause()
@@ -871,10 +878,9 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
       <DrawerContent className="p-0">
         {item.videoUrl ? (
           <div className="flex flex-col h-full">
-            <div className="w-full" style={{ height: isMobile ? "40vh" : "70vh" }}>
-              <video 
-                ref={videoRef}
-                src={item.videoUrl} 
+            <div className="w-full video-container" style={{ height: isMobile ? "40vh" : "70vh" }}>
+              <Video 
+                src={item.videoUrl}
                 controls 
                 autoPlay
                 className="w-full h-full object-contain bg-black"
