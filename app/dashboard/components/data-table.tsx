@@ -88,11 +88,18 @@ import {
   TableRow,
 } from "@/registry/new-york-v4/ui/table"
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/registry/new-york-v4/ui/tabs"
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/registry/new-york-v4/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/registry/new-york-v4/ui/popover"
 
 export const schema = z.object({
   id: z.number(),
@@ -100,6 +107,8 @@ export const schema = z.object({
   result: z.string(),
   exercise: z.string(),
   category: z.string(),
+  videoUrl: z.string().nullable().optional(),
+  isplayer: z.string(),
 })
 
 // Create a separate component for the drag handle
@@ -156,7 +165,22 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 hover:bg-transparent"
+        >
+          Name
+          {column.getIsSorted() === "asc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4 rotate-180" />
+          ) : null}
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return (
         <TableCellViewer item={row.original}>
@@ -165,53 +189,110 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       )
     },
     enableHiding: false,
+    enableSorting: true,
+    filterFn: "arrIncludesSome",
   },
   {
     accessorKey: "result",
-    header: "Ergebnis",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 hover:bg-transparent"
+        >
+          Ergebnis
+          {column.getIsSorted() === "asc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4 rotate-180" />
+          ) : null}
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <div>{row.original.result}</div>
     ),
+    enableSorting: true,
   },
   {
     accessorKey: "exercise",
-    header: "Übung",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 hover:bg-transparent"
+        >
+          Übung
+          {column.getIsSorted() === "asc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4 rotate-180" />
+          ) : null}
+        </Button>
+      )
+    },
     cell: ({ row }) => row.original.exercise,
     enableSorting: true,
     enableHiding: true,
+    filterFn: "arrIncludesSome",
   },
   {
     accessorKey: "category",
-    header: "Kategorie",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 hover:bg-transparent"
+        >
+          Kategorie
+          {column.getIsSorted() === "asc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <IconChevronDown className="ml-2 h-4 w-4 rotate-180" />
+          ) : null}
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
         {row.original.category}
       </Badge>
     ),
+    enableSorting: true,
+    filterFn: "arrIncludesSome",
   },
   {
     id: "actions",
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-            size="icon"
-          >
-            <IconDotsVertical />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>Edit</DropdownMenuItem>
-          <DropdownMenuItem>Make a copy</DropdownMenuItem>
-          <DropdownMenuItem>Favorite</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
+    cell: ({ row }) => {
+      const videoUrl = row.original.videoUrl;
+      
+      if (!videoUrl) return null;
+      
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+              size="icon"
+            >
+              <IconDotsVertical />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-32">
+            <DropdownMenuItem asChild>
+              <a href={videoUrl} target="_blank" rel="noopener noreferrer">
+                Video
+              </a>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ]
 
@@ -250,15 +331,18 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
       exercise: false,
+      category: false,
     })
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 10,
   })
+  const [selectedNames, setSelectedNames] = React.useState<string[]>([])
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([])
+  const [selectedExercises, setSelectedExercises] = React.useState<string[]>([])
+  const [includeDfbData, setIncludeDfbData] = React.useState<boolean>(false)
   const sortableId = React.useId()
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
@@ -266,13 +350,44 @@ export function DataTable({
     useSensor(KeyboardSensor, {})
   )
 
+  const uniqueNames = React.useMemo(() => {
+    const names = new Set<string>();
+    data.forEach((item) => {
+      if (item.isplayer === "YES") {
+        names.add(item.name);
+      }
+    });
+    return Array.from(names);
+  }, [data]);
+  
+  const uniqueCategories = React.useMemo(() => {
+    const categories = new Set<string>();
+    data.forEach((item) => categories.add(item.category));
+    return Array.from(categories);
+  }, [data]);
+
+  const uniqueExercises = React.useMemo(() => {
+    const exercises = new Set<string>();
+    data.forEach((item) => exercises.add(item.exercise));
+    return Array.from(exercises);
+  }, [data]);
+
+  // Filter data based on DFB checkbox - exclude isplayer="NO" entries unless checkbox is checked
+  const filteredData = React.useMemo(() => {
+    if (includeDfbData) {
+      return data; // Show all data including DFB benchmarks
+    } else {
+      return data.filter((item) => item.isplayer === "YES"); // Only show players
+    }
+  }, [data, includeDfbData]);
+
   const dataIds = React.useMemo<UniqueIdentifier[]>(
-    () => data?.map(({ id }) => id) || [],
-    [data]
+    () => filteredData?.map(({ id }) => id) || [],
+    [filteredData]
   )
 
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     state: {
       sorting,
@@ -295,6 +410,33 @@ export function DataTable({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
+  
+  // Handle multi-select name filtering
+  React.useEffect(() => {
+    if (selectedNames.length === 0) {
+      table.getColumn("name")?.setFilterValue(undefined);
+    } else {
+      table.getColumn("name")?.setFilterValue(selectedNames);
+    }
+  }, [selectedNames, table]);
+  
+  // Handle multi-select category filtering
+  React.useEffect(() => {
+    if (selectedCategories.length === 0) {
+      table.getColumn("category")?.setFilterValue(undefined);
+    } else {
+      table.getColumn("category")?.setFilterValue(selectedCategories);
+    }
+  }, [selectedCategories, table]);
+
+  // Handle multi-select exercise filtering
+  React.useEffect(() => {
+    if (selectedExercises.length === 0) {
+      table.getColumn("exercise")?.setFilterValue(undefined);
+    } else {
+      table.getColumn("exercise")?.setFilterValue(selectedExercises);
+    }
+  }, [selectedExercises, table]);
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -307,96 +449,252 @@ export function DataTable({
     }
   }
 
-  const handleTabChange = (value: string) => {
-    if (value === "all") {
-      table.getColumn("exercise")?.setFilterValue(undefined)
-    } else {
-      table.getColumn("exercise")?.setFilterValue(value)
-    }
-  }
-
   return (
-    <Tabs
-      defaultValue="all"
-      className="w-full flex-col justify-start gap-6"
-      onValueChange={handleTabChange}
-    >
-      <div className="flex items-center justify-between px-4 lg:px-6">
-        <Label htmlFor="view-selector" className="sr-only">
-          View
-        </Label>
-        <Select defaultValue="all">
-          <SelectTrigger
-            className="flex w-fit @4xl/main:hidden"
-            size="sm"
-            id="view-selector"
-          >
-            <SelectValue placeholder="Select a view" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Alle Übungen</SelectItem>
-            <SelectItem value="10m Sprint">10m Sprint</SelectItem>
-            <SelectItem value="20m Sprint">20m Sprint</SelectItem>
-            <SelectItem value="Gewandtheit">Gewandtheit</SelectItem>
-            <SelectItem value="Dribbling">Dribbling</SelectItem>
-            <SelectItem value="Ballkontrolle">Ballkontrolle</SelectItem>
-            <SelectItem value="Balljonglieren">Balljonglieren</SelectItem>
-          </SelectContent>
-        </Select>
-        <TabsList className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
-          <TabsTrigger value="all">Alle Übungen</TabsTrigger>
-          <TabsTrigger value="10m Sprint">10m Sprint</TabsTrigger>
-          <TabsTrigger value="20m Sprint">20m Sprint</TabsTrigger>
-          <TabsTrigger value="Gewandtheit">Gewandtheit</TabsTrigger>
-          <TabsTrigger value="Dribbling">Dribbling</TabsTrigger>
-          <TabsTrigger value="Ballkontrolle">Ballkontrolle</TabsTrigger>
-          <TabsTrigger value="Balljonglieren">Balljonglieren</TabsTrigger>
-        </TabsList>
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <IconLayoutColumns />
-                <span className="hidden lg:inline">Spalten anpassen</span>
-                <span className="lg:hidden">Spalten</span>
-                <IconChevronDown />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              {table
-                .getAllColumns()
-                .filter(
-                  (column) =>
-                    typeof column.accessorFn !== "undefined" &&
-                    column.getCanHide()
-                )
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  )
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button variant="outline" size="sm">
-            <IconPlus />
-            <span className="hidden lg:inline">Eintrag hinzufügen</span>
-          </Button>
+    <div className="w-full flex-col justify-start gap-6">
+      <div className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="name-filter">Name:</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-[200px] justify-between">
+                    {selectedNames.length > 0
+                      ? `${selectedNames.length} ausgewählt`
+                      : "Filter nach Name..."}
+                    <IconChevronDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0" align="start">
+                  <Command>
+                    <CommandInput placeholder="Namen suchen..." />
+                    <CommandList>
+                      <CommandEmpty>Keine Namen gefunden.</CommandEmpty>
+                      <CommandGroup>
+                        {uniqueNames.map((name) => (
+                          <CommandItem
+                            key={name}
+                            onSelect={() => {
+                              setSelectedNames((prev) =>
+                                prev.includes(name)
+                                  ? prev.filter((n) => n !== name)
+                                  : [...prev, name]
+                              )
+                            }}
+                          >
+                            <div
+                              className={`mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary ${
+                                selectedNames.includes(name)
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible"
+                              }`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="16"
+                                height="16"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="h-4 w-4"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            </div>
+                            {name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="exercise-filter">Übung:</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-[200px] justify-between">
+                    {selectedExercises.length > 0
+                      ? `${selectedExercises.length} ausgewählt`
+                      : "Filter nach Übung..."}
+                    <IconChevronDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0" align="start">
+                  <Command>
+                    <CommandInput placeholder="Übungen suchen..." />
+                    <CommandList>
+                      <CommandEmpty>Keine Übungen gefunden.</CommandEmpty>
+                      <CommandGroup>
+                        {uniqueExercises.map((exercise) => (
+                          <CommandItem
+                            key={exercise}
+                            onSelect={() => {
+                              setSelectedExercises((prev) =>
+                                prev.includes(exercise)
+                                  ? prev.filter((e) => e !== exercise)
+                                  : [...prev, exercise]
+                              )
+                            }}
+                          >
+                            <div
+                              className={`mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary ${
+                                selectedExercises.includes(exercise)
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible"
+                              }`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="16"
+                                height="16"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="h-4 w-4"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            </div>
+                            {exercise}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="category-filter">Kategorie:</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 w-[200px] justify-between">
+                    {selectedCategories.length > 0
+                      ? `${selectedCategories.length} ausgewählt`
+                      : "Filter nach Kategorie..."}
+                    <IconChevronDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0" align="start">
+                  <Command>
+                    <CommandInput placeholder="Kategorien suchen..." />
+                    <CommandList>
+                      <CommandEmpty>Keine Kategorien gefunden.</CommandEmpty>
+                      <CommandGroup>
+                        {uniqueCategories.map((category) => (
+                          <CommandItem
+                            key={category}
+                            onSelect={() => {
+                              setSelectedCategories((prev) =>
+                                prev.includes(category)
+                                  ? prev.filter((c) => c !== category)
+                                  : [...prev, category]
+                              )
+                            }}
+                          >
+                            <div
+                              className={`mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary ${
+                                selectedCategories.includes(category)
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible"
+                              }`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="16"
+                                height="16"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="h-4 w-4"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            </div>
+                            {category}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="dfb-data-filter"
+                checked={includeDfbData}
+                onCheckedChange={(checked) => setIncludeDfbData(!!checked)}
+              />
+              <Label htmlFor="dfb-data-filter">mit DFB Daten</Label>
+            </div>
+          </div>
+          {/* Display selected filters */}
+          {(selectedNames.length > 0 || selectedExercises.length > 0 || selectedCategories.length > 0) && (
+            <div className="flex flex-wrap gap-2">
+              {selectedNames.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  <span className="text-sm font-medium text-muted-foreground">Namen:</span>
+                  {selectedNames.map((name) => (
+                    <Badge key={name} variant="secondary" className="text-xs">
+                      {name}
+                      <button
+                        onClick={() => setSelectedNames((prev) => prev.filter((n) => n !== name))}
+                        className="ml-1 hover:bg-destructive hover:text-destructive-foreground rounded-full w-3 h-3 flex items-center justify-center text-xs"
+                      >
+                        ×
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              {selectedExercises.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  <span className="text-sm font-medium text-muted-foreground">Übungen:</span>
+                  {selectedExercises.map((exercise) => (
+                    <Badge key={exercise} variant="secondary" className="text-xs">
+                      {exercise}
+                      <button
+                        onClick={() => setSelectedExercises((prev) => prev.filter((e) => e !== exercise))}
+                        className="ml-1 hover:bg-destructive hover:text-destructive-foreground rounded-full w-3 h-3 flex items-center justify-center text-xs"
+                      >
+                        ×
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              {selectedCategories.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  <span className="text-sm font-medium text-muted-foreground">Kategorien:</span>
+                  {selectedCategories.map((category) => (
+                    <Badge key={category} variant="secondary" className="text-xs">
+                      {category}
+                      <button
+                        onClick={() => setSelectedCategories((prev) => prev.filter((c) => c !== category))}
+                        className="ml-1 hover:bg-destructive hover:text-destructive-foreground rounded-full w-3 h-3 flex items-center justify-center text-xs"
+                      >
+                        ×
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </div>
-      <TabsContent
-        value="all"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-lg border h-[400px] flex flex-col">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -404,47 +702,49 @@ export function DataTable({
             sensors={sensors}
             id={sortableId}
           >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
+            <div className="overflow-auto flex-1">
+              <Table className="relative">
+                <TableHeader className="bg-muted sticky top-0 z-10">
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => {
+                        return (
+                          <TableHead key={header.id} colSpan={header.colSpan}>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </TableHead>
+                        )
+                      })}
+                    </TableRow>
+                  ))}
+                </TableHeader>
+                <TableBody className="**:data-[slot=table-cell]:first:w-8 overflow-y-auto">
+                  {table.getRowModel().rows?.length ? (
+                    <SortableContext
+                      items={dataIds}
+                      strategy={verticalListSortingStrategy}
                     >
-                      Keine Ergebnisse.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+                      {table.getRowModel().rows.map((row) => (
+                        <DraggableRow key={row.id} row={row} />
+                      ))}
+                    </SortableContext>
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={columns.length}
+                        className="h-24 text-center"
+                      >
+                        Keine Ergebnisse.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           </DndContext>
         </div>
         <div className="flex items-center justify-between px-4">
@@ -524,349 +824,40 @@ export function DataTable({
             </div>
           </div>
         </div>
-      </TabsContent>
-      <TabsContent
-        value="10m Sprint"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      Keine Ergebnisse.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </DndContext>
-        </div>
-      </TabsContent>
-      <TabsContent
-        value="20m Sprint"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      Keine Ergebnisse.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </DndContext>
-        </div>
-      </TabsContent>
-      <TabsContent
-        value="Gewandtheit"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      Keine Ergebnisse.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </DndContext>
-        </div>
-      </TabsContent>
-      <TabsContent
-        value="Dribbling"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      Keine Ergebnisse.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </DndContext>
-        </div>
-      </TabsContent>
-      <TabsContent
-        value="Ballkontrolle"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      Keine Ergebnisse.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </DndContext>
-        </div>
-      </TabsContent>
-      <TabsContent
-        value="Balljonglieren"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
-      >
-        <div className="overflow-hidden rounded-lg border">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
-            <Table>
-              <TableHeader className="bg-muted sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      Keine Ergebnisse.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </DndContext>
-        </div>
-      </TabsContent>
-    </Tabs>
+      </div>
+    </div>
   )
 }
 
 function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, children: React.ReactNode }) {
   const isMobile = useIsMobile()
+  const videoRef = React.useRef<HTMLVideoElement>(null)
+  const [playbackRate, setPlaybackRate] = React.useState(1)
+  
+  // Frame by frame navigation (approximately 1/30 second per frame)
+  const frameStep = 1/30
+  
+  const stepForward = () => {
+    if (videoRef.current) {
+      videoRef.current.pause()
+      videoRef.current.currentTime += frameStep
+    }
+  }
+  
+  const stepBackward = () => {
+    if (videoRef.current) {
+      videoRef.current.pause()
+      videoRef.current.currentTime -= frameStep
+    }
+  }
+  
+  // Change playback speed
+  const changeSpeed = (speed: number) => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = speed
+      setPlaybackRate(speed)
+    }
+  }
 
   return (
     <Drawer direction={isMobile ? "bottom" : "right"}>
@@ -875,62 +866,65 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
           {children}
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.name}</DrawerTitle>
-          <DrawerDescription>
-            Übung: {item.exercise} ({item.category})
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-          <form className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" defaultValue={item.name} />
+      <DrawerContent className="p-0">
+        {item.videoUrl ? (
+          <div className="flex flex-col h-full">
+            <div className="flex-grow overflow-hidden relative">
+              <video 
+                ref={videoRef}
+                src={item.videoUrl} 
+                controls 
+                autoPlay
+                className="absolute inset-0 w-full h-full object-contain bg-black"
+                poster="/avatars/01.png"
+              />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="exercise">Übung</Label>
-                <Select defaultValue={item.exercise}>
-                  <SelectTrigger id="exercise" className="w-full">
-                    <SelectValue placeholder="Übung auswählen" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="10m Sprint">10m Sprint</SelectItem>
-                    <SelectItem value="20m Sprint">20m Sprint</SelectItem>
-                    <SelectItem value="Gewandtheit">Gewandtheit</SelectItem>
-                    <SelectItem value="Dribbling">Dribbling</SelectItem>
-                    <SelectItem value="Ballkontrolle">Ballkontrolle</SelectItem>
-                    <SelectItem value="Balljonglieren">Balljonglieren</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="p-2 bg-background">
+              <div className="flex flex-wrap gap-2 mb-2">
+                <div className="flex items-center gap-1">
+                  <Button variant="outline" size="sm" onClick={stepBackward} title="Previous Frame">
+                    ◀|
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={stepForward} title="Next Frame">
+                    |▶
+                  </Button>
+                </div>
+                
+                <div className="flex items-center gap-1">
+                  <span className="text-xs font-medium">Speed:</span>
+                  {[0.25, 0.5, 1, 1.5, 2].map((speed) => (
+                    <Button 
+                      key={speed} 
+                      variant={playbackRate === speed ? "default" : "outline"} 
+                      size="sm"
+                      onClick={() => changeSpeed(speed)}
+                    >
+                      {speed}x
+                    </Button>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="category">Kategorie</Label>
-                <Select defaultValue={item.category}>
-                  <SelectTrigger id="category" className="w-full">
-                    <SelectValue placeholder="Kategorie auswählen" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Schnelligkeit">Schnelligkeit</SelectItem>
-                    <SelectItem value="Beweglichkeit">Beweglichkeit</SelectItem>
-                    <SelectItem value="Technik">Technik</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              
+              <DrawerClose asChild>
+                <Button variant="outline" className="w-full">Schließen</Button>
+              </DrawerClose>
             </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="result">Ergebnis</Label>
-              <Input id="result" defaultValue={item.result} />
-            </div>
-          </form>
-        </div>
-        <DrawerFooter>
-          <Button>Speichern</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Schließen</Button>
-          </DrawerClose>
-        </DrawerFooter>
+          </div>
+        ) : (
+          <>
+            <DrawerHeader className="gap-1">
+              <DrawerTitle>{item.name}</DrawerTitle>
+              <DrawerDescription>
+                Übung: {item.exercise} ({item.category})
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="outline">Schließen</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </>
+        )}
       </DrawerContent>
     </Drawer>
   )
