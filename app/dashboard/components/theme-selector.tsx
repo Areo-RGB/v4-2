@@ -1,6 +1,6 @@
 "use client"
 
-import { useThemeConfig } from "@/components/active-theme"
+import { useThemeStore } from "@/stores/theme-store"
 import { Label } from "@/registry/new-york-v4/ui/label"
 import {
   Select,
@@ -51,7 +51,7 @@ const MONO_THEMES = [
 ]
 
 export function ThemeSelector() {
-  const { activeTheme, setActiveTheme } = useThemeConfig()
+  const { activeTheme, setActiveTheme } = useThemeStore()
 
   return (
     <div className="flex items-center gap-2">

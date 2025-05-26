@@ -5,10 +5,10 @@ import { fontVariables } from "@/lib/fonts"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/registry/new-york-v4/ui/sonner"
+import { StoreInitializer } from "@/components/store-initializer"
 
 import "./globals.css"
 import { cn } from "@/lib/utils"
-import { ActiveThemeProvider } from "@/components/active-theme"
 
 const META_THEME_COLORS = {
   light: "#ffffff",
@@ -75,11 +75,10 @@ export default async function RootLayout({
           disableTransitionOnChange
           enableColorScheme
         >
-          <ActiveThemeProvider initialTheme={activeThemeValue}>
-            {children}
-            <Toaster />
-            <Analytics />
-          </ActiveThemeProvider>
+          <StoreInitializer initialTheme={activeThemeValue} />
+          {children}
+          <Toaster />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

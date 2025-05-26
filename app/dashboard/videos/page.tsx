@@ -22,26 +22,22 @@ export default function VideosPage() {
     if (!open) {
       setSelectedVideo(null);
     }
-  };  return (
+  };
+
+  return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="flex items-center justify-between p-6">
         <h1 className="text-3xl font-bold">Video Library</h1>
-        <div className="text-sm text-muted-foreground">
-          Hover to preview • Click to watch
-        </div>
       </div>
 
-      {/* Video Cards Section */}
-      <div className="px-6 mb-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {mockVideos.map((video) => (
-            <VideoCard
-              key={video.id}
-              video={video}
-              onClick={handleVideoCardClick}
-            />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
+        {mockVideos.map((video) => (
+          <VideoCard
+            key={video.id}
+            video={video}
+            onClick={handleVideoCardClick}
+          />
+        ))}
       </div>
 
       <Dialog open={selectedVideo !== null} onOpenChange={handleOpenChange}>
