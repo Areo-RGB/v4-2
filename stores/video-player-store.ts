@@ -175,26 +175,23 @@ export const useVideoPlayerSync = (videoElement: HTMLVideoElement | null) => {
     }
     
     const handleTimeUpdate = () => {
-      setCurrentTime(videoElement.currentTime)
-    }
-    
-    const handleError = () => {
-      handleError(new Error('Video failed to load'))
+      setCurrentTime(videoElement.currentTime)    }
+      const onError = (event: ErrorEvent) => {
+      handleError(new Error('Video failed to load: ' + event.message))
     }
     
     const handleEnded = () => {
       setIsPlaying(false)
     }
-    
-    videoElement.addEventListener('loadeddata', handleLoadedData)
+      videoElement.addEventListener('loadeddata', handleLoadedData)
     videoElement.addEventListener('timeupdate', handleTimeUpdate)
-    videoElement.addEventListener('error', handleError)
+    videoElement.addEventListener('error', onError)
     videoElement.addEventListener('ended', handleEnded)
     
     return () => {
       videoElement.removeEventListener('loadeddata', handleLoadedData)
       videoElement.removeEventListener('timeupdate', handleTimeUpdate)
-      videoElement.removeEventListener('error', handleError)
+      videoElement.removeEventListener('error', onError)
       videoElement.removeEventListener('ended', handleEnded)
     }
   }, [videoElement, setVideoElement, setIsLoaded, setDuration, setCurrentTime, setIsPlaying, handleError])
