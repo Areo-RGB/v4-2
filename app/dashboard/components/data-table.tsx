@@ -429,16 +429,15 @@ export function DataTable({
     <div className="w-full flex-col justify-start gap-6">
       <div className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
         <div className="flex flex-col space-y-4">
-          <div className="flex flex-wrap gap-4">
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="name-filter">Name:</Label>
+          <div className="flex flex-row items-center flex-wrap gap-2">
+            <div className="flex items-center">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 w-[200px] justify-between">
+                  <Button variant="outline" size="sm" className="h-7 w-[140px] text-xs justify-between" aria-label="Filter by name">
                     {selectedNames.length > 0
-                      ? `${selectedNames.length} ausgewählt`
-                      : "Filter nach Name..."}
-                    <IconChevronDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
+                      ? `${selectedNames.length} ausgew.`
+                      : "Name..."}
+                    <IconChevronDown className="ml-1 h-3 w-3 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0" align="start">
@@ -489,15 +488,14 @@ export function DataTable({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="exercise-filter">Übung:</Label>
+            <div className="flex items-center">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 w-[200px] justify-between">
+                  <Button variant="outline" size="sm" className="h-7 w-[140px] text-xs justify-between" aria-label="Filter by exercise">
                     {selectedExercises.length > 0
-                      ? `${selectedExercises.length} ausgewählt`
-                      : "Filter nach Übung..."}
-                    <IconChevronDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
+                      ? `${selectedExercises.length} ausgew.`
+                      : "Übung..."}
+                    <IconChevronDown className="ml-1 h-3 w-3 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0" align="start">
@@ -548,15 +546,14 @@ export function DataTable({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="category-filter">Kategorie:</Label>
+            <div className="flex items-center">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 w-[200px] justify-between">
+                  <Button variant="outline" size="sm" className="h-7 w-[140px] text-xs justify-between" aria-label="Filter by category">
                     {selectedCategories.length > 0
-                      ? `${selectedCategories.length} ausgewählt`
-                      : "Filter nach Kategorie..."}
-                    <IconChevronDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
+                      ? `${selectedCategories.length} ausgew.`
+                      : "Kategorie..."}
+                    <IconChevronDown className="ml-1 h-3 w-3 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0" align="start">
@@ -607,13 +604,14 @@ export function DataTable({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-1">
               <Checkbox
                 id="dfb-data-filter"
                 checked={includeDfbData}
                 onCheckedChange={(checked) => setIncludeDfbData(!!checked)}
+                className="h-3.5 w-3.5"
               />
-              <Label htmlFor="dfb-data-filter">mit DFB Daten</Label>
+              <Label htmlFor="dfb-data-filter" className="text-xs">DFB</Label>
             </div>
           </div>
           {/* Display selected filters */}
