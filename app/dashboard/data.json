@@ -96,17 +96,7 @@
     "exercise": "10m Sprint",
     "category": "Schnelligkeit",
     "videoUrl": null,
-    "isplayer": "NO"
-  },
-  {
-    "id": 15,
-    "name": "DFB-10",
-    "result": "2.33",
-    "exercise": "10m Sprint",
-    "category": "Schnelligkeit",
-    "videoUrl": null,
-    "isplayer": "NO"
-  },
+    "isplayer": "NO"  },
   {
     "id": 14,
     "name": "DFB-3",

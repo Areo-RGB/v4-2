@@ -16,7 +16,6 @@ export default async function DashboardLayout({
 }) {
   const cookieStore = await cookies()
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
-
   return (
     <SidebarProvider
       defaultOpen={defaultOpen}
@@ -26,7 +25,7 @@ export default async function DashboardLayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" />
+      {/* <AppSidebar variant="inset" /> */}
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">{children}</div>

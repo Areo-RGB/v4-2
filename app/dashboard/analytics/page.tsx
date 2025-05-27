@@ -1,6 +1,7 @@
 import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/registry/new-york-v4/ui/card" 
 import { SimpleAreaChart } from "@/app/dashboard/components/simple-area-chart"
+import { PlayerMetricsChart } from "@/app/dashboard/components/player-metrics-chart"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -99,13 +100,11 @@ export default function AnalyticsPage() {
       </div>
 
       <Card className="col-span-1 md:col-span-2 lg:col-span-3"> 
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle>Performance Overview</CardTitle>
         </CardHeader>
-        <CardContent className="h-[300px]">
-          <div className="flex h-full items-center justify-center border rounded-md">
-            <p className="text-muted-foreground">More graph data will be displayed here</p>
-          </div>
+        <CardContent className="pt-0">
+          <PlayerMetricsChart />
         </CardContent>
       </Card>
     </div>
