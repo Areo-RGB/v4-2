@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/registry/new-york-v4/ui/card" 
 import { DFB_AGE_GROUPS, getDfbSprintDataForChart, getDfbSprintMeanValues } from "@/lib/dfb-data" 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york-v4/ui/tabs"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/registry/new-york-v4/ui/select"
 import { Checkbox } from "@/registry/new-york-v4/ui/checkbox"
 import { Label } from "@/registry/new-york-v4/ui/label"
 import dashboardData from "../data.json"
@@ -200,15 +200,26 @@ export function SimpleAreaChart() {
           </Label>
         </div>
         
-        <Tabs defaultValue={activeTest} onValueChange={setActiveTest} className="mb-4">
-          <TabsList className="grid grid-cols-3 md:grid-cols-6">
-            {TEST_TYPES.map(test => (
-              <TabsTrigger key={test.id} value={test.id}>{test.name}</TabsTrigger>
-            ))}
-          </TabsList>
-          
-          <TabsContent value={activeTest}>
-            <div className="h-[400px] w-full">
+        <div className="mb-4">
+          <Label htmlFor="test-select" className="text-sm font-medium">
+            Select Test:
+          </Label>
+          <Select value={activeTest} onValueChange={setActiveTest}>
+            <SelectTrigger className="w-[200px] mt-2">
+              <SelectValue placeholder="Select a test" />
+            </SelectTrigger>
+            <SelectContent>
+              {TEST_TYPES.map(test => (
+                <SelectItem key={test.id} value={test.id}>
+                  {test.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <div className="mb-4">
+          <div className="h-[400px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 30 }}>
                   <defs>
@@ -276,11 +287,9 @@ export function SimpleAreaChart() {
             />
             
             <div className="mt-2 text-sm text-center text-muted-foreground">
-              {!isPointsTest && "Lower values indicate better performance (seconds)"}
               {isPointsTest && "Higher values indicate better performance (points)"}
             </div>
-          </TabsContent>
-        </Tabs>
+        </div>
       </CardContent>
     </Card>
   )
