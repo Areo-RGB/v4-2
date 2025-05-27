@@ -219,7 +219,7 @@ export function DataTable({
   })
   const [selectedNames, setSelectedNames] = React.useState<string[]>([])
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>([])
-  const [selectedExercises, setSelectedExercises] = React.useState<string[]>([])
+  const [selectedExercises, setSelectedExercises] = React.useState<string[]>(["10m Sprint"])
   const [includeDfbData, setIncludeDfbData] = React.useState<boolean>(false)
 
   // Always enforce hiding the exercise and category columns
@@ -346,9 +346,9 @@ export function DataTable({
                             }}
                           >
                             <div
-                              className={`mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary ${
+                              className={`mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-blue-600 ${
                                 selectedNames.includes(name)
-                                  ? "bg-primary text-primary-foreground"
+                                  ? "bg-blue-600 text-white"
                                   : "opacity-50 [&_svg]:invisible"
                               }`}
                             >
@@ -509,7 +509,7 @@ export function DataTable({
                 <div className="flex flex-wrap gap-1">
                   <span className="text-sm font-medium text-muted-foreground">Namen:</span>
                   {selectedNames.map((name) => (
-                    <Badge key={name} variant="secondary" className="text-xs">
+                    <Badge key={name} variant="secondary" className="text-xs bg-blue-600 text-white">
                       {name}
                       <button
                         onClick={() => setSelectedNames((prev) => prev.filter((n) => n !== name))}
@@ -525,7 +525,7 @@ export function DataTable({
                 <div className="flex flex-wrap gap-1">
                   <span className="text-sm font-medium text-muted-foreground">Übungen:</span>
                   {selectedExercises.map((exercise) => (
-                    <Badge key={exercise} variant="secondary" className="text-xs">
+                    <Badge key={exercise} variant="secondary" className="text-xs bg-blue-600 text-white">
                       {exercise}
                       <button
                         onClick={() => setSelectedExercises((prev) => prev.filter((e) => e !== exercise))}
@@ -541,7 +541,7 @@ export function DataTable({
                 <div className="flex flex-wrap gap-1">
                   <span className="text-sm font-medium text-muted-foreground">Kategorien:</span>
                   {selectedCategories.map((category) => (
-                    <Badge key={category} variant="secondary" className="text-xs">
+                    <Badge key={category} variant="secondary" className="text-xs bg-blue-600 text-white">
                       {category}
                       <button
                         onClick={() => setSelectedCategories((prev) => prev.filter((c) => c !== category))}
@@ -583,7 +583,7 @@ export function DataTable({
                     <TableRow 
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"} 
-                      className="hover:bg-muted/50 transition-all rounded-lg my-1 shadow-sm hover:shadow-md bg-card"
+                      className="hover:bg-muted/50 transition-all rounded-lg my-1 shadow-sm hover:shadow-md bg-card border-2 border-border/60"
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>
@@ -596,7 +596,7 @@ export function DataTable({
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className="h-24 text-center"
+                      className="h-24 text-center border-2 border-border/60"
                     >
                       Keine Ergebnisse.
                     </TableCell>
@@ -702,10 +702,12 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
     
     const findVideoElement = () => {
       // Find the video element inside the next-video component
-      const videoElement = document.querySelector('.video-container video');
-      if (videoElement) {
-        videoRef.current = videoElement as HTMLVideoElement;
-        return true;
+      if (typeof document !== 'undefined') {
+        const videoElement = document.querySelector('.video-container video');
+        if (videoElement) {
+          videoRef.current = videoElement as HTMLVideoElement;
+          return true;
+        }
       }
       return false;
     };
@@ -713,19 +715,27 @@ function TableCellViewer({ item, children }: { item: z.infer<typeof schema>, chi
     // Try immediately
     if (!findVideoElement()) {
       // If not ready, use MutationObserver to wait for the video to load
-      const observer = new MutationObserver(() => {
-        if (findVideoElement()) {
+      if (typeof window !== 'undefined') {
+        const observer = new MutationObserver(() => {
+          if (findVideoElement()) {
+            observer.disconnect();
+          }
+        });
+        
+        observer.observe(document.body, { 
+          childList: true, 
+          subtree: true 
+        });
+        
+        // Cleanup observer after 5 seconds
+        const timeout = setTimeout(() => observer.disconnect(), 5000);
+        
+        // Clean up on unmount
+        return () => {
+          clearTimeout(timeout);
           observer.disconnect();
-        }
-      });
-      
-      observer.observe(document.body, { 
-        childList: true, 
-        subtree: true 
-      });
-      
-      // Cleanup observer after 5 seconds
-      setTimeout(() => observer.disconnect(), 5000);
+        };
+      }
     }
   }, [item.videoUrl]);
   

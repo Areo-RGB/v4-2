@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { IconChartBar, IconChevronDown, IconFolder } from "@tabler/icons-react"
 import { Button } from "@/registry/new-york-v4/ui/button"
 import {
@@ -28,16 +29,34 @@ export function SiteHeader() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-1">
                 <IconFolder className="size-4" />
-                Projects
+                Spieler
                 <IconChevronDown className="size-4 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/bent">Bent</Link>
+                  <Link href="/dashboard/bent" className="flex items-center gap-2">
+                    <Image
+                      src="/avatars/silas.webp"
+                      alt="Bent"
+                      width={20}
+                      height={20}
+                      className="rounded-full"
+                    />
+                    Bent
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Finley</DropdownMenuItem>
+                <DropdownMenuItem className="flex items-center gap-2">
+                  <Image
+                    src="/avatars/Finley_portrait.webp"
+                    alt="Finley"
+                    width={20}
+                    height={20}
+                    className="rounded-full"
+                  />
+                  Finley
+                </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
