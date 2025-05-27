@@ -31,6 +31,7 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupContent,
+  useSidebar,
 } from "@/registry/new-york-v4/ui/sidebar"
 import { NavDocuments } from "@/app/dashboard/components/nav-documents"
 import { NavMain } from "@/app/dashboard/components/nav-main"
@@ -99,21 +100,10 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+    // Hidden items:
+    // - Settings
+    // - Get Help
+    // - Search
   ],
   documents: [
     {
@@ -140,15 +130,27 @@ const data = {
     },
     {
       name: "Finley",
-      url: "/dashboard/finley",
+      url: "/dashboard/Finley",
+      avatar: "/avatars/Finley_portrait.webp",
+    },
+    {
+      name: "Finley-Bent",
+      url: "/dashboard/Finley-Bent",
       avatar: "/avatars/Finley_portrait.webp",
     }
   ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { toggleSidebar } = useSidebar()
+  
   return (
-    <Sidebar collapsible="icon" {...props}>      <SidebarHeader>
+    <Sidebar 
+      collapsible="icon" 
+      onClick={toggleSidebar}
+      {...props}
+    >
+      <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
@@ -201,7 +203,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         
         {/* <NavDocuments items={data.documents} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
-      </SidebarContent>      <SidebarFooter>
+      </SidebarContent>
+      <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

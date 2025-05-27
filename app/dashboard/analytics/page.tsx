@@ -7,25 +7,27 @@ import { PlayerMetricsChart } from "@/app/dashboard/components/player-metrics-ch
 export default function AnalyticsPage() {
   return (
     <div className="p-6 space-y-6">
-      <div className="flex flex-1 items-center justify-center rounded-lg border-2 border-border/60 shadow-sm min-h-32">
-        <div className="flex flex-col items-center gap-3 text-center">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/dfb-logo.png"
-              alt="DFB Logo"
-              width={40}
-              height={40}
-              className="object-contain"
-            />
-            <h3 className="text-2xl font-bold tracking-tight">
-              Spieler:Ergebnisse
-            </h3>
+      <Card className="col-span-1 md:col-span-2 lg:col-span-3">
+        <CardContent className="flex items-center justify-center min-h-32">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/dfb-logo.png"
+                alt="DFB Logo"
+                width={40}
+                height={40}
+                className="object-contain"
+              />
+              <h3 className="text-2xl font-bold tracking-tight">
+                Statistiken
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Techno-Motorische Leistungsdiagnostik
+            </p>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Techno-Motorische Leistungsdiagnostik
-          </p>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Simple Area Chart for DFB Sprint data */}
       <div className="w-full">
