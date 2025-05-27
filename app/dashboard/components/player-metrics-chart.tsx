@@ -259,9 +259,9 @@ export function PlayerMetricsChart() {
                 <Tooltip 
                   formatter={(value: any, name: string) => {
                     const unit = activeMetric === 'height' ? 'cm' : 'kg';
-                    const formattedName = name === 'min' ? 'Minimum' : name === 'max' ? 'Maximum' : 'Average';
-                    return [`${value}${unit}`, formattedName];
+                    return [`${value}${unit}`, name];
                   }}
+                  labelFormatter={(label) => `Range: ${label}`}
                 />
                 <Legend 
                   align="center"

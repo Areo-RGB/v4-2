@@ -45,14 +45,9 @@ const data = {
   },  
   navMain: [
     {
-      title: "Analytics Dashboard",
+      title: "Statistiken",
       icon: IconChartBar,
       url: "/dashboard/analytics",
-    },
-    {
-      title: "Leistungsanalyse",
-      icon: IconChartBar,
-      url: "/dashboard/analytics/performance",
     }
   ],
   navClouds: [
@@ -162,7 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">QuoVadis</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
