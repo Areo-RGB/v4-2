@@ -1,8 +1,9 @@
+import Link from "next/link"
+import { IconChartBar, IconDashboard } from "@tabler/icons-react"
 import { Button } from "@/registry/new-york-v4/ui/button"
 import { Separator } from "@/registry/new-york-v4/ui/separator"
 import { SidebarTrigger } from "@/registry/new-york-v4/ui/sidebar"
 import { ModeToggle } from "@/app/dashboard/components/mode-toggle"
-import { ThemeSelector } from "@/app/dashboard/components/theme-selector"
 
 export function SiteHeader() {
   return (
@@ -12,9 +13,22 @@ export function SiteHeader() {
         <Separator
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
-        />        <h1 className="text-base font-medium">Dashboard</h1>
+        />        <h1 className="text-base font-medium">QuoVadis</h1>
+        <nav className="flex items-center gap-1 ml-4">
+          <Button asChild variant="ghost" size="sm" className="gap-2">
+            <Link href="/dashboard">
+              <IconDashboard className="size-4" />
+              Dashboard
+            </Link>
+          </Button>
+          <Button asChild variant="ghost" size="sm" className="gap-2">
+            <Link href="/dashboard/analytics">
+              <IconChartBar className="size-4" />
+              Analytics
+            </Link>
+          </Button>
+        </nav>
         <div className="ml-auto flex items-center gap-2">
-          <ThemeSelector />
           <ModeToggle />
         </div>
       </div>
