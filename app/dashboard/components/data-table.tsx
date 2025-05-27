@@ -2,36 +2,6 @@
 
 import * as React from "react"
 import {
-  DndContext,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-  type UniqueIdentifier,
-} from "@dnd-kit/core"
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers"
-import {
-  SortableContext,
-  arrayMove,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
-import {
-  IconChevronDown,
-  IconChevronLeft,
-  IconChevronRight,
-  IconChevronsLeft,
-  IconChevronsRight,
-  IconDotsVertical,
-  IconGripVertical,
-  IconLayoutColumns,
-  IconPlus,
-} from "@tabler/icons-react"
-import {
   ColumnDef,
   ColumnFiltersState,
   Row,
@@ -103,6 +73,17 @@ import {
   PopoverTrigger,
 } from "@/registry/new-york-v4/ui/popover"
 import CustomVideoPlayer from "@/components/custom-video-player"
+import {
+  IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
+  IconChevronsLeft,
+  IconChevronsRight,
+  IconDotsVertical,
+  IconLayoutColumns,
+  IconPlus,
+  IconPlayerPlay,
+} from "@tabler/icons-react"
 
 export const schema = z.object({
   id: z.number(),
@@ -114,32 +95,7 @@ export const schema = z.object({
   isplayer: z.string(),
 })
 
-// Create a separate component for the drag handle
-function DragHandle({ id }: { id: number }) {
-  const { attributes, listeners } = useSortable({
-    id,
-  })
-
-  return (
-    <Button
-      {...attributes}
-      {...listeners}
-      variant="ghost"
-      size="icon"
-      className="text-muted-foreground size-7 hover:bg-transparent"
-    >
-      <IconGripVertical className="text-muted-foreground size-3" />
-      <span className="sr-only">Drag to reorder</span>
-    </Button>
-  )
-}
-
 const columns: ColumnDef<z.infer<typeof schema>>[] = [
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
-  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -241,61 +197,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     enableSorting: true,
     filterFn: "arrIncludesSome",
   },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const videoUrl = row.original.videoUrl;
-      
-      if (!videoUrl) return null;
-      
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-              size="icon"
-            >
-              <IconDotsVertical />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-32">
-            <DropdownMenuItem asChild>
-              <a href={videoUrl} target="_blank" rel="noopener noreferrer">
-                Video
-              </a>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
 ]
-
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
-  const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: row.original.id,
-  })
-
-  return (      <TableRow
-        data-state={row.getIsSelected() && "selected"}
-        data-dragging={isDragging}
-        ref={setNodeRef}
-        className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80 hover:bg-muted/50 transition-all rounded-lg my-1 shadow-sm hover:shadow-md bg-card"
-        style={{
-          transform: CSS.Transform.toString(transform),
-          transition: transition,
-        }}
-      >
-      {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
-          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-        </TableCell>
-      ))}
-    </TableRow>
-  )
-}
 
 export function DataTable({
   data: initialData,
@@ -319,12 +221,14 @@ export function DataTable({
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>([])
   const [selectedExercises, setSelectedExercises] = React.useState<string[]>([])
   const [includeDfbData, setIncludeDfbData] = React.useState<boolean>(false)
-  const sortableId = React.useId()
-  const sensors = useSensors(
-    useSensor(MouseSensor, {}),
-    useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
-  )
+
+  // Always enforce hiding the exercise and category columns
+  React.useEffect(() => {
+    setColumnVisibility({
+      exercise: false,
+      category: false,
+    });
+  }, []);
 
   const uniqueNames = React.useMemo(() => {
     const names = new Set<string>();
@@ -356,11 +260,6 @@ export function DataTable({
       return data.filter((item) => item.isplayer === "YES"); // Only show players
     }
   }, [data, includeDfbData]);
-
-  const dataIds = React.useMemo<UniqueIdentifier[]>(
-    () => filteredData?.map(({ id }) => id) || [],
-    [filteredData]
-  )
 
   const table = useReactTable({
     data: filteredData,
@@ -413,17 +312,6 @@ export function DataTable({
       table.getColumn("exercise")?.setFilterValue(selectedExercises);
     }
   }, [selectedExercises, table]);
-
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event
-    if (active && over && active.id !== over.id) {
-      setData((data) => {
-        const oldIndex = dataIds.indexOf(active.id)
-        const newIndex = dataIds.indexOf(over.id)
-        return arrayMove(data, oldIndex, newIndex)
-      })
-    }
-  }
 
   return (
     <div className="w-full flex-col justify-start gap-6">
@@ -595,7 +483,7 @@ export function DataTable({
                                 <polyline points="20 6 9 17 4 12" />
                               </svg>
                             </div>
-                            {category}
+                            <span className="font-medium">{category}</span>
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -669,57 +557,54 @@ export function DataTable({
           )}
         </div>
         <div className="overflow-hidden rounded-lg border h-[400px] flex flex-col">
-          <DndContext
-            collisionDetection={closestCenter}
-            modifiers={[restrictToVerticalAxis]}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-            id={sortableId}
-          >
-            <div className="overflow-auto flex-1">
-              <Table className="relative border-separate border-spacing-y-1">
-                <TableHeader className="bg-muted sticky top-0 z-10">
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => {
-                        return (
-                          <TableHead key={header.id} colSpan={header.colSpan}>
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
-                                )}
-                          </TableHead>
-                        )
-                      })}
-                    </TableRow>
-                  ))}
-                </TableHeader>
-                <TableBody className="**:data-[slot=table-cell]:first:w-8 overflow-y-auto">
-                  {table.getRowModel().rows?.length ? (
-                    <SortableContext
-                      items={dataIds}
-                      strategy={verticalListSortingStrategy}
+          <div className="overflow-auto flex-1">
+            <Table className="relative border-separate border-spacing-y-1">
+              <TableHeader className="bg-muted sticky top-0 z-10">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id} colSpan={header.colSpan}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      )
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody className="overflow-y-auto">
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow 
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"} 
+                      className="hover:bg-muted/50 transition-all rounded-lg my-1 shadow-sm hover:shadow-md bg-card"
                     >
-                      {table.getRowModel().rows.map((row) => (
-                        <DraggableRow key={row.id} row={row} />
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
                       ))}
-                    </SortableContext>
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={columns.length}
-                        className="h-24 text-center"
-                      >
-                        Keine Ergebnisse.
-                      </TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          </DndContext>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      Keine Ergebnisse.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
         <div className="flex items-center justify-between px-4">
           <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">

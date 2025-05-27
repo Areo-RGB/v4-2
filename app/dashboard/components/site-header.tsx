@@ -34,7 +34,9 @@ export function SiteHeader() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
               <DropdownMenuGroup>
-                <DropdownMenuItem>Bent</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/bent">Bent</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Finley</DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
