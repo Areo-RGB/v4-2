@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/registry/new-york-v4/ui/card" 
 import { SimpleAreaChart } from "@/app/dashboard/components/simple-area-chart"
 import { PlayerMetricsChart } from "@/app/dashboard/components/player-metrics-chart"
@@ -6,8 +7,24 @@ import { PlayerMetricsChart } from "@/app/dashboard/components/player-metrics-ch
 export default function AnalyticsPage() {
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Analytics Dashboard</h1>
+      <div className="flex flex-1 items-center justify-center rounded-lg border-2 border-border/60 shadow-sm min-h-32">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/dfb-logo.png"
+              alt="DFB Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            <h3 className="text-2xl font-bold tracking-tight">
+              Spieler:Ergebnisse
+            </h3>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Techno-Motorische Leistungsdiagnostik
+          </p>
+        </div>
       </div>
 
       {/* Simple Area Chart for DFB Sprint data */}
