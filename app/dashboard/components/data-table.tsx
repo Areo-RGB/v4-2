@@ -144,7 +144,10 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       )
     },
     cell: ({ row }) => (
-      <div>{row.original.result}</div>
+      <div>
+        {row.original.result}
+        {row.original.exercise === "Balljonglieren" ? " Punkte" : " s"}
+      </div>
     ),
     enableSorting: true,
   },
