@@ -121,23 +121,6 @@ const data = {
       url: "#",
       icon: IconFileWord,
     },
-  ],
-  players: [
-    {
-      name: "Bent",
-      url: "/dashboard/bent",
-      avatar: "/avatars/silas.webp",
-    },
-    {
-      name: "Finley",
-      url: "/dashboard/Finley",
-      avatar: "/avatars/Finley_portrait.webp",
-    },
-    {
-      name: "Finley-Bent",
-      url: "/dashboard/Finley-Bent",
-      avatar: "/avatars/Finley_portrait.webp",
-    }
   ]
 }
 
@@ -167,39 +150,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        
-        {/* Players Section */}
-        <SidebarGroup>
-          <SidebarGroupContent className="mt-4">
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Spieler Profiles">
-                  <IconFolder className="size-4" />
-                  <span>Spieler Profiles</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              {data.players.map((player) => (
-                <SidebarMenuItem key={player.name}>
-                  <SidebarMenuButton asChild tooltip={player.name}>
-                    <Link href={player.url} className="flex items-center gap-2">
-                      <div className="flex-shrink-0">
-                        <Image
-                          src={player.avatar}
-                          alt={player.name}
-                          width={24}
-                          height={24}
-                          className="rounded-full"
-                        />
-                      </div>
-                      <span>{player.name}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
         
         {/* <NavDocuments items={data.documents} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
