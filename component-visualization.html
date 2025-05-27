@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Component Dependency Visualization</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { 
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .node {
+      cursor: pointer;
+    }
+    .link {
+      stroke: #999;
+      stroke-opacity: 0.6;
+    }
+    .node text {
+      font-size: 12px;
+      fill: #333;
+    }
+    h1 {
+      text-align: center;
+    }
+    .tooltip {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+      opacity: 0;
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Component Dependency Visualization</h1>
+  <div class="controls">
+    <button id="zoom-in">Zoom In</button>
+    <button id="zoom-out">Zoom Out</button>
+    <button id="reset">Reset</button>
+  </div>
+  <div id="visualization"></div>
+  <div class="tooltip"></div>
+  <script>
+    // Data
+    const data = {
+      nodes: [{"id":"registry/new-york-v4/ui/card.tsx","name":"card","path":"registry/new-york-v4/ui/card.tsx","group":1,"usedByCount":92},{"id":"registry/new-york-v4/ui/chart.tsx","name":"chart","path":"registry/new-york-v4/ui/chart.tsx","group":1,"usedByCount":77},{"id":"registry/new-york-v4/ui/button.tsx","name":"button","path":"registry/new-york-v4/ui/button.tsx","group":1,"usedByCount":43},{"id":"registry/new-york-v4/ui/dropdown-menu.tsx","name":"dropdown-menu","path":"registry/new-york-v4/ui/dropdown-menu.tsx","group":1,"usedByCount":29},{"id":"registry/new-york-v4/ui/label.tsx","name":"label","path":"registry/new-york-v4/ui/label.tsx","group":1,"usedByCount":29},{"id":"registry/new-york-v4/ui/separator.tsx","name":"separator","path":"registry/new-york-v4/ui/separator.tsx","group":1,"usedByCount":20},{"id":"registry/new-york-v4/ui/input.tsx","name":"input","path":"registry/new-york-v4/ui/input.tsx","group":1,"usedByCount":18},{"id":"registry/new-york-v4/ui/breadcrumb.tsx","name":"breadcrumb","path":"registry/new-york-v4/ui/breadcrumb.tsx","group":1,"usedByCount":17},{"id":"registry/new-york-v4/ui/avatar.tsx","name":"avatar","path":"registry/new-york-v4/ui/avatar.tsx","group":1,"usedByCount":14},{"id":"registry/new-york-v4/ui/select.tsx","name":"select","path":"registry/new-york-v4/ui/select.tsx","group":1,"usedByCount":12},{"id":"registry/new-york-v4/ui/collapsible.tsx","name":"collapsible","path":"registry/new-york-v4/ui/collapsible.tsx","group":1,"usedByCount":12},{"id":"registry/new-york-v4/ui/badge.tsx","name":"badge","path":"registry/new-york-v4/ui/badge.tsx","group":1,"usedByCount":8},{"id":"registry/new-york-v4/ui/checkbox.tsx","name":"checkbox","path":"registry/new-york-v4/ui/checkbox.tsx","group":1,"usedByCount":7},{"id":"registry/new-york-v4/ui/popover.tsx","name":"popover","path":"registry/new-york-v4/ui/popover.tsx","group":1,"usedByCount":6},{"id":"registry/new-york-v4/ui/table.tsx","name":"table","path":"registry/new-york-v4/ui/table.tsx","group":1,"usedByCount":4},{"id":"registry/new-york-v4/ui/switch.tsx","name":"switch","path":"registry/new-york-v4/ui/switch.tsx","group":1,"usedByCount":4},{"id":"registry/new-york-v4/ui/tabs.tsx","name":"tabs","path":"registry/new-york-v4/ui/tabs.tsx","group":1,"usedByCount":4},{"id":"registry/new-york-v4/ui/textarea.tsx","name":"textarea","path":"registry/new-york-v4/ui/textarea.tsx","group":1,"usedByCount":4},{"id":"registry/new-york-v4/ui/navigation-menu.tsx","name":"navigation-menu","path":"registry/new-york-v4/ui/navigation-menu.tsx","group":1,"usedByCount":3},{"id":"registry/new-york-v4/ui/drawer.tsx","name":"drawer","path":"registry/new-york-v4/ui/drawer.tsx","group":1,"usedByCount":3}],
+      links: []
+    };
+    
+    // Set up the visualization
+    const width = window.innerWidth - 40;
+    const height = window.innerHeight - 150;
+    
+    // Create a color scale for different component groups
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    
+    // Create a force simulation
+    const simulation = d3.forceSimulation(data.nodes)
+      .force("link", d3.forceLink(data.links).id(d => d.id).distance(100))
+      .force("charge", d3.forceManyBody().strength(-300))
+      .force("center", d3.forceCenter(width / 2, height / 2));
+    
+    // Create the SVG container
+    const svg = d3.select("#visualization")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", [0, 0, width, height])
+      .call(d3.zoom().on("zoom", (event) => {
+        g.attr("transform", event.transform);
+      }));
+    
+    const g = svg.append("g");
+      
+    // Add links
+    const link = g.append("g")
+      .selectAll("line")
+      .data(data.links)
+      .join("line")
+      .attr("class", "link")
+      .attr("stroke-width", d => Math.sqrt(d.value));
+    
+    // Add nodes
+    const node = g.append("g")
+      .selectAll("g")
+      .data(data.nodes)
+      .join("g")
+      .attr("class", "node")
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+    
+    // Add circles for nodes
+    node.append("circle")
+      .attr("r", d => 5 + Math.sqrt(d.usedByCount) * 2)
+      .attr("fill", d => color(d.group));
+    
+    // Add labels to nodes
+    node.append("text")
+      .attr("dx", 12)
+      .attr("dy", ".35em")
+      .text(d => d.name);
+    
+    // Add tooltip
+    const tooltip = d3.select(".tooltip");
+    
+    node.on("mouseover", (event, d) => {
+      tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+      tooltip.html(`
+        <strong>${d.name}</strong><br>
+        Path: ${d.path}<br>
+        Used by: ${d.usedByCount} components
+      `)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 28) + "px");
+    })
+    .on("mouseout", () => {
+      tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
+    });
+    
+    // Update the simulation on each tick
+    simulation.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+      
+      node.attr("transform", d => `translate(${d.x}, ${d.y})`);
+    });
+    
+    // Handle dragging
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+    
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+    
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+    
+    // Controls
+    d3.select("#zoom-in").on("click", () => {
+      svg.transition().call(
+        d3.zoom().on("zoom", (event) => {
+          g.attr("transform", event.transform);
+        }).scaleBy, 1.3
+      );
+    });
+    
+    d3.select("#zoom-out").on("click", () => {
+      svg.transition().call(
+        d3.zoom().on("zoom", (event) => {
+          g.attr("transform", event.transform);
+        }).scaleBy, 1 / 1.3
+      );
+    });
+    
+    d3.select("#reset").on("click", () => {
+      svg.transition().call(
+        d3.zoom().on("zoom", (event) => {
+          g.attr("transform", event.transform);
+        }).transform, d3.zoomIdentity
+      );
+    });
+  </script>
+</body>
+</html>

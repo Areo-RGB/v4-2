@@ -223,7 +223,7 @@ export function DataTable({
   const [selectedNames, setSelectedNames] = React.useState<string[]>([])
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>([])
   const [selectedExercises, setSelectedExercises] = React.useState<string[]>(["10m Sprint"])
-  const [includeDfbData, setIncludeDfbData] = React.useState<boolean>(false)
+  const [includeDfbData, setIncludeDfbData] = React.useState<boolean>(true)
 
   // Always enforce hiding the exercise and category columns
   React.useEffect(() => {
@@ -559,15 +559,15 @@ export function DataTable({
             </div>
           )}
         </div>
-        <div className="overflow-hidden rounded-lg border h-[400px] flex flex-col">
+        <div className="overflow-hidden rounded-lg border h-[calc(100vh-200px)] flex flex-col">
           <div className="overflow-auto flex-1">
-            <Table className="relative border-separate border-spacing-y-1">
+            <Table className="relative border-separate border-spacing-y-0.5 w-full">
               <TableHeader className="bg-muted sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
+                        <TableHead key={header.id} colSpan={header.colSpan} className="py-1.5 px-2">
                           {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -586,10 +586,10 @@ export function DataTable({
                     <TableRow 
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"} 
-                      className="hover:bg-muted/50 transition-all rounded-lg my-1 shadow-sm hover:shadow-md bg-card border-2 border-border/60"
+                      className="hover:bg-muted/50 transition-all rounded-lg my-0.5 py-0.5 shadow-sm hover:shadow-md bg-card border border-border/60"
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
+                        <TableCell key={cell.id} className="py-1 px-2">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </TableCell>
                       ))}

@@ -1,5 +1,14 @@
 [
   {
+    "id": 24,
+    "name": "DFB-97",
+    "result": "1.99",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
     "id": 1,
     "name": "Finley",
     "result": "2.00",
@@ -7,6 +16,132 @@
     "category": "Schnelligkeit",
     "videoUrl": null,
     "isplayer": "YES"
+  },
+  {
+    "id": 23,
+    "name": "DFB-90",
+    "result": "2.05",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 22,
+    "name": "DFB-80",
+    "result": "2.10",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 21,
+    "name": "DFB-70",
+    "result": "2.13",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 20,
+    "name": "DFB-60",
+    "result": "2.16",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 19,
+    "name": "DFB-50",
+    "result": "2.18",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 18,
+    "name": "DFB-40",
+    "result": "2.21",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 17,
+    "name": "DFB-30",
+    "result": "2.24",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 16,
+    "name": "DFB-20",
+    "result": "2.28",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 13,
+    "name": "DFB-10",
+    "result": "2.33",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 15,
+    "name": "DFB-10",
+    "result": "2.33",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 14,
+    "name": "DFB-3",
+    "result": "2.39",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 7,
+    "name": "Bent",
+    "result": "2.87",
+    "exercise": "10m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": "https://stream.mux.com/NYAE4oZ1WIvAoV5IQLr7I02e1dBXgLT003hdQZ1Xex6WI.m3u8",
+    "isplayer": "YES"
+  },
+  {
+    "id": 35,
+    "name": "DFB-97",
+    "result": "3.47",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 34,
+    "name": "DFB-90",
+    "result": "3.57",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
   },
   {
     "id": 2,
@@ -18,6 +153,96 @@
     "isplayer": "YES"
   },
   {
+    "id": 33,
+    "name": "DFB-80",
+    "result": "3.64",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 32,
+    "name": "DFB-70",
+    "result": "3.69",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 31,
+    "name": "DFB-60",
+    "result": "3.74",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 30,
+    "name": "DFB-50",
+    "result": "3.78",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 29,
+    "name": "DFB-40",
+    "result": "3.82",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 28,
+    "name": "DFB-30",
+    "result": "3.87",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 27,
+    "name": "DFB-20",
+    "result": "3.93*",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 8,
+    "name": "Bent",
+    "result": "3.95",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": "https://stream.mux.com/9C01G2LosCKrdNFbYG5lejOtbjg5V91b02CCtki1g27Nc.m3u8",
+    "isplayer": "YES"
+  },
+  {
+    "id": 26,
+    "name": "DFB-10",
+    "result": "4.01",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 25,
+    "name": "DFB-3",
+    "result": "4.14",
+    "exercise": "20m Sprint",
+    "category": "Schnelligkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
     "id": 3,
     "name": "Finley",
     "result": "7.81",
@@ -25,6 +250,114 @@
     "category": "Beweglichkeit",
     "videoUrl": null,
     "isplayer": "YES"
+  },
+  {
+    "id": 46,
+    "name": "DFB-97",
+    "result": "7.91",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 9,
+    "name": "Bent",
+    "result": "7.92",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": "https://stream.mux.com/lo8TySjvNXL02YjcAWPp838e2LN2XhZScurW00lz7eLj8.m3u8",
+    "isplayer": "YES"
+  },
+  {
+    "id": 45,
+    "name": "DFB-90",
+    "result": "8.11",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 44,
+    "name": "DFB-80",
+    "result": "8.28",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 43,
+    "name": "DFB-70",
+    "result": "8.42",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 42,
+    "name": "DFB-60",
+    "result": "8.54",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 41,
+    "name": "DFB-50",
+    "result": "8.66",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 40,
+    "name": "DFB-40",
+    "result": "8.77",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 39,
+    "name": "DFB-30",
+    "result": "8.90",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 38,
+    "name": "DFB-20",
+    "result": "9.07",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 37,
+    "name": "DFB-10",
+    "result": "9.33",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 36,
+    "name": "DFB-3",
+    "result": "9.66",
+    "exercise": "Gewandtheit",
+    "category": "Beweglichkeit",
+    "videoUrl": null,
+    "isplayer": "NO"
   },
   {
     "id": 4,
@@ -36,46 +369,112 @@
     "isplayer": "YES"
   },
   {
-    "id": 5,
-    "name": "Finley",
-    "result": "0.00",
-    "exercise": "Balljonglieren",
+    "id": 57,
+    "name": "DFB-97",
+    "result": "10.43",
+    "exercise": "Dribbling",
     "category": "Technik",
     "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 56,
+    "name": "DFB-90",
+    "result": "10.84",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 55,
+    "name": "DFB-80",
+    "result": "11.16",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 54,
+    "name": "DFB-70",
+    "result": "11.44",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 53,
+    "name": "DFB-60",
+    "result": "11.68",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 52,
+    "name": "DFB-50",
+    "result": "11.90",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 51,
+    "name": "DFB-40",
+    "result": "12.15",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 12,
+    "name": "Bent",
+    "result": "12.15",
+    "exercise": "Dribbling",
+    "category": "Gewandtheit",
+    "videoUrl": "https://stream.mux.com/9C01G2LosCKrdNFbYG5lejOtbjg5V91b02CCtki1g27Nc.m3u8",
     "isplayer": "YES"
   },
   {
-    "id": 6,
-    "name": "Finley",
-    "result": "10.82",
-    "exercise": "Ballkontrolle",
+    "id": 50,
+    "name": "DFB-30",
+    "result": "12.50",
+    "exercise": "Dribbling",
     "category": "Technik",
     "videoUrl": null,
-    "isplayer": "YES"
-  },  {
-    "id": 7,
-    "name": "Bent",
-    "result": "2.87",
-    "exercise": "10m Sprint",
-    "category": "Schnelligkeit",
-    "videoUrl": "https://stream.mux.com/NYAE4oZ1WIvAoV5IQLr7I02e1dBXgLT003hdQZ1Xex6WI.m3u8",
-    "isplayer": "YES"
-  },  {
-    "id": 8,
-    "name": "Bent",
-    "result": "3.95",
-    "exercise": "20m Sprint",
-    "category": "Schnelligkeit",
-    "videoUrl": "https://stream.mux.com/9C01G2LosCKrdNFbYG5lejOtbjg5V91b02CCtki1g27Nc.m3u8",
-    "isplayer": "YES"
-  },  {
-    "id": 9,
-    "name": "Bent",
-    "result": "7.92",
-    "exercise": "Gewandtheit",
-    "category": "Beweglichkeit",
-    "videoUrl": "https://stream.mux.com/lo8TySjvNXL02YjcAWPp838e2LN2XhZScurW00lz7eLj8.m3u8",
-    "isplayer": "YES"
+    "isplayer": "NO"
+  },
+  {
+    "id": 49,
+    "name": "DFB-20",
+    "result": "12.84",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 48,
+    "name": "DFB-10",
+    "result": "13.42",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 47,
+    "name": "DFB-3",
+    "result": "14.37",
+    "exercise": "Dribbling",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
   },
   {
     "id": 10,
@@ -87,6 +486,123 @@
     "isplayer": "YES"
   },
   {
+    "id": 68,
+    "name": "DFB-97",
+    "result": "9.00",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 67,
+    "name": "DFB-90",
+    "result": "9.66",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 66,
+    "name": "DFB-80",
+    "result": "10.18",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 65,
+    "name": "DFB-70",
+    "result": "10.59",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 6,
+    "name": "Finley",
+    "result": "10.82",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "YES"
+  },
+  {
+    "id": 64,
+    "name": "DFB-60",
+    "result": "10.99",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 63,
+    "name": "DFB-50",
+    "result": "11.36",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 62,
+    "name": "DFB-40",
+    "result": "11.78",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 61,
+    "name": "DFB-30",
+    "result": "12.28",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 60,
+    "name": "DFB-20",
+    "result": "12.86",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 59,
+    "name": "DFB-10",
+    "result": "13.81",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 58,
+    "name": "DFB-3",
+    "result": "15.29",
+    "exercise": "Ballkontrolle",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 75,
+    "name": "DFB-97",
+    "result": "6",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
     "id": 11,
     "name": "Bent",
     "result": "11.00",
@@ -94,22 +610,68 @@
     "category": "Technik",
     "videoUrl": null,
     "isplayer": "YES"
-  },  {
-    "id": 12,
-    "name": "Bent",
-    "result": "12.15",
-    "exercise": "Dribbling",
-    "category": "Gewandtheit",
-    "videoUrl": "https://stream.mux.com/9C01G2LosCKrdNFbYG5lejOtbjg5V91b02CCtki1g27Nc.m3u8",
-    "isplayer": "YES"
   },
   {
-    "id": 13,
-    "name": "DFB-10",
-    "result": "2.33",
-    "exercise": "10m Sprint",
-    "category": "Schnelligkeit",
+    "id": 74,
+    "name": "DFB-90",
+    "result": "3",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
     "videoUrl": null,
     "isplayer": "NO"
+  },
+  {
+    "id": 73,
+    "name": "DFB-80",
+    "result": "2",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 69,
+    "name": "DFB",
+    "result": "1",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 70,
+    "name": "DFB",
+    "result": "1",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 71,
+    "name": "DFB",
+    "result": "1",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 72,
+    "name": "DFB",
+    "result": "1",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "NO"
+  },
+  {
+    "id": 5,
+    "name": "Finley",
+    "result": "0.00",
+    "exercise": "Balljonglieren",
+    "category": "Technik",
+    "videoUrl": null,
+    "isplayer": "YES"
   }
 ]
