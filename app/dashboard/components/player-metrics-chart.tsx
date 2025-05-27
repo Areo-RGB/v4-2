@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts"
+import { Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, ReferenceLine, ComposedChart, CartesianGrid } from "recharts"
 import { Badge } from "@/registry/new-york-v4/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/new-york-v4/ui/tabs"
 import { Card, CardContent } from "@/registry/new-york-v4/ui/card"
@@ -236,26 +236,25 @@ export function PlayerMetricsChart() {
         <CardContent className="p-2">
           <div className="h-[450px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart 
+              <ComposedChart 
                 data={chartData}
-                margin={{ top: 10, right: 30, left: 10, bottom: 50 }}
-                barGap={2}
-                barSize={16}
+                margin={{ top: 15, right: 50, left: 10, bottom: 20 }}
+                layout="vertical"
+                barCategoryGap={8}
+                barSize={12}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.4} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.4} horizontal={true} vertical={true} />
                 <XAxis 
-                  dataKey="range" 
-                  angle={-45} 
-                  textAnchor="end"
-                  height={50}
-                  tick={{ fontSize: 11 }}
+                  type="number"
+                  domain={[minValue, maxValue]}
+                  tickFormatter={(value) => `${value}${activeMetric === 'height' ? 'cm' : 'kg'}`}
+                  allowDecimals={false}
                 />
                 <YAxis 
-                  tickFormatter={(value) => `${value}${activeMetric === 'height' ? 'cm' : 'kg'}`}
-                  width={45}
-                  domain={[minValue, maxValue]}
-                  padding={{ top: 10 }}
-                  allowDecimals={false}
+                  type="category"
+                  dataKey="range"
+                  width={70}
+                  tick={{ fontSize: 11 }}
                 />
                 <Tooltip 
                   formatter={(value: any, name: string) => {
@@ -279,20 +278,20 @@ export function PlayerMetricsChart() {
                 {PLAYER_DATA.map(player => (
                   <ReferenceLine 
                     key={player.name}
-                    y={activeMetric === 'height' ? player.height : player.weight} 
+                    x={activeMetric === 'height' ? player.height : player.weight} 
                     stroke={playerColors[player.name as keyof typeof playerColors]} 
                     strokeDasharray="3 3"
                     strokeWidth={2}
+                    isFront={true}
                     label={{ 
                       value: `${player.name}`,
-                      position: 'right',
+                      position: 'insideTopRight',
                       fill: playerColors[player.name as keyof typeof playerColors],
-                      fontSize: 10,
-                      offset: 5
+                      fontSize: 10
                     }}
                   />
                 ))}
-              </BarChart>
+              </ComposedChart>
             </ResponsiveContainer>
           </div>
         </CardContent>

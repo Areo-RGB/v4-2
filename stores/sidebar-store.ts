@@ -30,7 +30,7 @@ interface SidebarState {
 export const useSidebarStore = create<SidebarState>()(
   devtools(
     (set, get) => ({
-      // Initial state
+      // Initial state - ensure sidebar is visible by default
       open: true,
       openMobile: false,
       isMobile: false,
@@ -84,6 +84,9 @@ export const useSidebarStore = create<SidebarState>()(
             const value = sidebarCookie.split('=')[1]
             const open = value === 'true'
             set({ open })
+          } else {
+            // If no cookie exists, default to open
+            set({ open: true })
           }
         }
       },

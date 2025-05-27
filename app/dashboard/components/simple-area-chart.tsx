@@ -219,7 +219,7 @@ export function SimpleAreaChart() {
                       </linearGradient>
                     ))}
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.4} />
+                  <CartesianGrid stroke="#ffffff" strokeOpacity={0.15} strokeWidth={0.5} />
                   <XAxis 
                     dataKey="categoryLabel" 
                     angle={-45} 
