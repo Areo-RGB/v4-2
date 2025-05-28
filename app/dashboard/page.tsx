@@ -1,7 +1,9 @@
 import Image from "next/image"
-import { Card, CardContent } from "@/registry/new-york-v4/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/registry/new-york-v4/ui/card"
 import { DataTable } from "@/app/dashboard/components/data-table"
 import data from "@/app/dashboard/data.json"
+import { SimpleAreaChart } from "@/app/dashboard/components/simple-area-chart"
+import { PlayerMetricsChart } from "@/app/dashboard/components/player-metrics-chart"
 
 export default function Page() {
   return (
@@ -30,6 +32,22 @@ export default function Page() {
         </Card>
         
         <DataTable data={data} />
+
+        {/* Analytics content moved from /dashboard/analytics */}
+        <div className="w-full mt-8">
+          <SimpleAreaChart />
+        </div>
+
+        <Card className="col-span-1 md:col-span-2 lg:col-span-3"> 
+          <CardHeader className="pb-2 text-center">
+            <CardTitle>Performance Overview</CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <PlayerMetricsChart />
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

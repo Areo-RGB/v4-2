@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   IconDotsVertical,
 } from "@tabler/icons-react"
@@ -49,6 +50,8 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const [currentUser, setCurrentUser] = useState(users[0]) // Default to Bent
 
+  const router = useRouter();
+
   const getUserInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase()
   }
@@ -90,7 +93,12 @@ export function NavUser({
               </DropdownMenuLabel>
               {users.filter(user => user.name !== currentUser.name).map((user) => (                <DropdownMenuItem
                   key={user.name}
-                  onClick={() => setCurrentUser(user)}
+                  onClick={() => {
+                    setCurrentUser(user);
+                    if (user.name === "Bent") {
+                      router.push("/dashboard/videos");
+                    }
+                  }}
                   className="gap-2"
                 ><Avatar className="h-6 w-6">
                     <AvatarImage src={user.avatar} alt={user.name} />
