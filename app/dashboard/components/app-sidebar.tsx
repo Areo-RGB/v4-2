@@ -47,11 +47,6 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },    navMain: [
     {
-      title: "Statistiken",
-      icon: IconChartBar,
-      url: "/dashboard/analytics",
-    },
-    {
       title: "Videos",
       icon: IconVideo,
       url: "/dashboard/videos",
