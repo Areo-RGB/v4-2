@@ -69,6 +69,11 @@ export const useSidebarStore = create<SidebarState>()(
           setOpenMobile(!openMobile)
         } else {
           setOpen(!open)
+          
+          // Save to cookie immediately
+          if (typeof document !== 'undefined') {
+            document.cookie = `${SIDEBAR_COOKIE_NAME}=${!open}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+          }
         }
       },
       

@@ -19,6 +19,7 @@ import {
   IconSearch,
   IconSettings,
   IconUsers,
+  IconVideo,
 } from "@tabler/icons-react"
 
 import {
@@ -44,12 +45,16 @@ const data = {
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
-  },  
-  navMain: [
+  },    navMain: [
     {
       title: "Statistiken",
       icon: IconChartBar,
       url: "/dashboard/analytics",
+    },
+    {
+      title: "Videos",
+      icon: IconVideo,
+      url: "/dashboard/videos",
     }
   ],
   navClouds: [

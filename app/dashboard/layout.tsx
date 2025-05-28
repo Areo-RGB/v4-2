@@ -1,4 +1,6 @@
-import { cookies } from "next/headers"
+"use client"
+
+import { useSidebarInit } from "@/stores/sidebar-store"
 
 import {
   SidebarInset,
@@ -9,16 +11,16 @@ import { SiteHeader } from "@/app/dashboard/components/site-header"
 
 import "@/app/dashboard/theme.css"
 
-export default async function DashboardLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = await cookies()
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
+  // Initialize sidebar state
+  useSidebarInit();
+  
   return (
     <SidebarProvider
-      defaultOpen={defaultOpen}
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
