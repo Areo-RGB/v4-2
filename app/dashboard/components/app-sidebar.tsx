@@ -31,6 +31,7 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarRail,
   useSidebar,
 } from "@/registry/new-york-v4/ui/sidebar"
 import { NavDocuments } from "@/app/dashboard/components/nav-documents"
@@ -130,7 +131,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar 
       collapsible="icon" 
-      onClick={toggleSidebar}
       {...props}
     >
       <SidebarHeader>
@@ -157,6 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   )
 }
