@@ -2,11 +2,16 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { NextRequest, NextResponse } from 'next/server'
 
+type RouteParams = {
+  params: {
+    filename: string
+  }
+}
+
 export async function GET(
   request: NextRequest,
-  context: { params: { filename: string } }
+  { params }: RouteParams
 ) {
-  const { params } = context;
   try {
     const { filename } = params
     const videosDirectory = path.join(process.cwd(), 'videos')
