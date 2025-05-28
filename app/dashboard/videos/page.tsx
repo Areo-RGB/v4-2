@@ -7,7 +7,7 @@ export default function VideosPage() {
     <div className="p-6 flex flex-col gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>Player Videos</CardTitle>
+          <CardTitle>Mai 2025 Video</CardTitle>
         </CardHeader>
         <CardContent>
           <VideoTimeline />

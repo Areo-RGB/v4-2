@@ -13,13 +13,8 @@ import {
   TimelineTitle,
 } from "@/components/ui/timeline"
 
-// Import video data directly
-import getStartedVideo from '@/videos/get-started.mp4.json'
-import video10m from '@/videos/10m.mp4.json'
-import video20m from '@/videos/20m.mp4.json'
+// Import only the timeline-mai video
 import timelineVideo from '@/videos/timeline-mai.mp4.json'
-import gwVideo from '@/videos/gw.mp4.json'
-import drVideo from '@/videos/dr.mp4.json'
 
 // Create a type for the video data based on the JSON structure
 type VideoData = {
@@ -45,15 +40,10 @@ type VideoData = {
 }
 
 export function VideoTimeline() {
-  // Use the imported video data
+  // Use only the timeline video
   const videos: VideoData[] = [
-    getStartedVideo,
-    video10m,
-    video20m,
-    timelineVideo,
-    gwVideo,
-    drVideo
-  ].filter(video => video && video.originalFilePath); // Filter out any invalid entries
+    timelineVideo
+  ].filter(video => video && video.originalFilePath);
 
   return (
     <Timeline className="p-4">
@@ -62,10 +52,14 @@ export function VideoTimeline() {
           <TimelineHeader>
             <TimelineIndicator />
             <TimelineTitle>
-              {video.originalFilePath?.split('/').pop()?.replace('.mp4', '') || `Video ${index + 1}`}
+              {video.originalFilePath?.includes('timeline-mai') 
+                ? 'Mai 2025' 
+                : (video.originalFilePath?.split('/').pop()?.replace('.mp4', '') || `Video ${index + 1}`)}
             </TimelineTitle>
             <TimelineDate>
-              {video.createdAt ? new Date(video.createdAt).toLocaleDateString() : 'No date'}
+              {video.originalFilePath?.includes('timeline-mai')
+                ? 'Mai 2025'
+                : (video.createdAt ? new Date(video.createdAt).toLocaleDateString() : 'No date')}
             </TimelineDate>
           </TimelineHeader>
           <TimelineContent>
