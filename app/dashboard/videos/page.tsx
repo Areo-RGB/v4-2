@@ -2,6 +2,16 @@ import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/registry/new-york-v4/ui/card"
 import Video from "next-video"
 import timelineMai from "/videos/timeline-mai.mp4"
+import {
+  Timeline,
+  TimelineContent,
+  TimelineDate,
+  TimelineHeader,
+  TimelineIndicator,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineTitle,
+} from "@/components/ui/timeline"
 
 export default function VideosPage() {
   return (
@@ -10,12 +20,29 @@ export default function VideosPage() {
         <CardHeader>
           <CardTitle>Mai 2025 Video</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <Video 
-            src={timelineMai} 
-            className="w-full aspect-video rounded-lg" 
-          />
-          <p className="p-4 text-sm text-muted-foreground">Mai 2025</p>
+        <CardContent>
+          <Timeline className="p-4">
+            <TimelineItem step={1}>
+              <TimelineHeader>
+                <TimelineIndicator />
+                <TimelineTitle>
+                  Mai 2025
+                </TimelineTitle>
+                <TimelineDate>
+                  Mai 2025
+                </TimelineDate>
+              </TimelineHeader>
+              <TimelineContent>
+                <div className="mt-2 space-y-2">
+                  <Video 
+                    src={timelineMai} 
+                    className="w-full rounded-lg aspect-video" 
+                  />
+                </div>
+              </TimelineContent>
+              <TimelineSeparator />
+            </TimelineItem>
+          </Timeline>
         </CardContent>
       </Card>
     </div>
