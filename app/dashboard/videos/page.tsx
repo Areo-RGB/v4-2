@@ -89,9 +89,13 @@ export default function VideosPage() {
                   </TimelineHeader>
                   <TimelineContent>
                     <div className="mt-2 space-y-2">
-                      <Video 
-                        src={finleyGw} 
-                        className="w-full rounded-lg aspect-video" 
+                      <iframe 
+                        src="https://www.youtube.com/embed/MQfM80Gm458" 
+                        title="YouTube video"
+                        className="w-full rounded-lg aspect-video"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
                       />
                     </div>
                   </TimelineContent>
@@ -109,9 +113,13 @@ export default function VideosPage() {
                   </TimelineHeader>
                   <TimelineContent>
                     <div className="mt-2 space-y-2">
-                      <CustomVideoPlayer 
-                        src="/videos/finley-gw.mov" 
-                        className="w-full rounded-lg aspect-video" 
+                      <iframe 
+                        src="https://www.youtube.com/embed/MQfM80Gm458" 
+                        title="YouTube video"
+                        className="w-full rounded-lg aspect-video"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
                       />
                     </div>
                   </TimelineContent>
