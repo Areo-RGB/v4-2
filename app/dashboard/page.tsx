@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { Card, CardContent } from "@/registry/new-york-v4/ui/card"
 import { DataTable } from "@/app/dashboard/components/data-table"
-import { VideoTimeline } from "@/app/dashboard/components/video-timeline"
 import data from "@/app/dashboard/data.json"
 
 export default function Page() {
@@ -27,14 +26,6 @@ export default function Page() {
                 Techno-Motorische Leistungsdiagnostik
               </p>
             </div>
-          </CardContent>
-        </Card>
-        
-        {/* Video Timeline Component */}
-        <Card>
-          <CardContent className="p-4">
-            <h2 className="mb-4 text-xl font-semibold">Player Videos</h2>
-            <VideoTimeline />
           </CardContent>
         </Card>
         
